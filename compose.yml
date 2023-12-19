@@ -1,0 +1,25 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/db_volume:/var/lib/postgresql/data
+    env_file:
+      - ./db/conf/.env
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    volumes:
+      - ./pgadmin/pgadmin_volume:/var/lib/pgadmin # ← 重要
+    env_file:
+      - ./pgadmin/conf/.env
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+volumes:
+  db_volume: {}
+  pgadmin_volume: {}
